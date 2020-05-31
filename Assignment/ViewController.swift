@@ -17,7 +17,6 @@ class ViewController: UIViewController, UITabBarDelegate {
     var result = [Response]()
     var searchResults = [Movie]()
     let searchController = UISearchController(searchResultsController: nil)
-    var rowIndexForDelete = IndexPath()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +55,6 @@ class ViewController: UIViewController, UITabBarDelegate {
         getDetails(item: item)
     }
     func geasture(cell: UICollectionViewCell, indexPath: IndexPath){
-        rowIndexForDelete = indexPath
         let UpSwipe = UISwipeGestureRecognizer(target: self, action: #selector(reset(sender:)))
         UpSwipe.direction = UISwipeGestureRecognizer.Direction.left
         cell.addGestureRecognizer(UpSwipe)
@@ -64,9 +62,12 @@ class ViewController: UIViewController, UITabBarDelegate {
     
     @objc
     func reset(sender: UISwipeGestureRecognizer) {
+        let cell = sender.view as! UICollectionViewCell
+        let itemIndex = self.collectionView.indexPath(for: cell)!.item
         collectionView.performBatchUpdates( {
                DispatchQueue.main.async {
-                self.moviesArray.remove(at: self.rowIndexForDelete.row)
+                self.moviesArray.remove(at: itemIndex)
+                self.collectionView.reloadData()
             }
         }, completion: nil)
       }

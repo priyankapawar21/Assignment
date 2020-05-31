@@ -35,7 +35,6 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.rowIndexForDelete = indexPath
         let viewController = storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as?  DetailViewController
         viewController?.detailObject = moviesArray[indexPath.row]
         self.navigationController?.pushViewController(viewController ?? DetailViewController(), animated: false)
